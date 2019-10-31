@@ -26,7 +26,7 @@
                 <button>3</button>
                 <button>4</button>
             </div>
-            <div>
+            <div id = "monDiv">
                 <button>5</button>
                 <button>6</button>
                 <button>7</button>
@@ -46,13 +46,38 @@
         
             this._shadowRoot = this.attachShadow({ mode: 'open' });
             this._shadowRoot.appendChild(template.content.cloneNode(true));
+            this.$container = this._shadowRoot.querySelectorAll("button")
+            this.attrs = {}
+            }
+
+            static get observedAttributes() {return ['bg','color'];}
+
+            attributeChangedCallback(name, oldVal, newVal){
+                //this.attrs[name] = newVal;
+                this.render(name, newVal);
+            }
+            
+            render(name_attribut, newVal){
+
+                for(let i = 0; i<this.$container.length; i++){
+                    let element = this.$container[i]
+                    switch (name_attribut){
+                        case 'bg':
+                    //let bg = this.attrs.bg;
+                        element.style.background = newVal;
+                        break
+                        case 'color':
+                        element.style.color = newVal;
+                        break  
+                    }
+                }
             }
         }
         window.customElements.define('my-button', My_button);
             </script>
             
-<my-button></my-button>
-<my-button></my-button>
+<my-button bg = 'blue'></my-button>
+<my-button color = 'red'></my-button>
 </body>
 
 </html>
